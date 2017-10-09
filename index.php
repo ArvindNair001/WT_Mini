@@ -2,8 +2,8 @@
 include('./classes/DB.php');
 include('./classes/Login.php');
 
-  if(isLoggedIn()){
-    echo "logged In ". isLoggedIn();
+  if(Login::isLoggedIn()){
+    echo "logged In ". Login::isLoggedIn();
   }
   else {
     echo "not Logged in";
