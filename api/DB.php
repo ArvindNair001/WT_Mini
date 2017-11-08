@@ -1,19 +1,17 @@
 <?php
     class DB {
-      private static function connect() {
-        $host = 'localhost';
-        $db_usrname = 'root';
-        $db_pass = '';
-        $dbname = 'sambandh';
+      private $pdo;
+      public function __construct($host,$db_usrname,$db_pass,$dbname) {
         $dbchar = 'utf8';
         $dsn = "mysql:host=$host;dbname=$dbname;charset=$dbchar";
         $pdo = new PDO($dsn,$db_usrname,$db_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        return $pdo;
+        // return $pdo;
+        $this->pdo = $pdo;
       }
 
-      public static function query($query, $params=array()) {
-        $statement = self::connect()->prepare($query);
+      public function query($query, $params=array()) {
+        $statement = $this->pdo->prepare($query);
         $statement->execute($params);
 
         if(explode(' ',$query)[0] == 'SELECT'){

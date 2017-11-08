@@ -1,79 +1,10 @@
-<!-- <?php
-include('./classes/DB.php');
-include('./classes/Login.php');
-include('./classes/Post.php');
-include('./classes/Comment.php');
-
-$showTimeline = False;
-  if(Login::isLoggedIn()){
-    $userid = Login::isLoggedIn();
-    $showTimeline = True;
-  }
-  else {
-    die("not Logged in");
-  }
-  if (isset($_GET['postid'])) {
-          Post::likePost($_GET['postid'], $userid);
-  }
-  if (isset($_POST['comment'])){
-    Comment::createComment($_POST['commentbody'],$_GET['postid'],$userid);
-  }
-
-  if (isset($_POST['deletepost'])) {
-                      if (DB::query('SELECT id FROM posts WHERE id=:postid AND user_id=:userid', array(':postid'=>$_GET['postid'], ':userid'=>$followerid))) {
-                              DB::query('DELETE FROM posts WHERE id=:postid and user_id=:userid', array(':postid'=>$_GET['postid'], ':userid'=>$followerid));
-                              DB::query('DELETE FROM post_likes WHERE post_id=:postid', array(':postid'=>$_GET['postid']));
-                              echo 'Post deleted!';
-                      }
-              }
-
-  $followingposts = DB::query('SELECT posts.id, posts.body, posts.likes, users.`username` FROM users, posts, followers
-  WHERE posts.user_id = followers.user_id
-  AND users.id = posts.user_id
-  AND follower_id = :userid
-  ORDER BY posts.likes DESC;',array(':userid'=>$userid));
-
-
-  foreach($followingposts as $post) {
-        echo $post['body']." ~ ".$post['username'];
-        echo "<form action='index.php?postid=".$post['id']."' method='post'>";
-        if (!DB::query('SELECT post_id FROM post_likes WHERE post_id=:postid AND user_id=:userid', array(':postid'=>$post['id'], ':userid'=>$userid))) {
-        echo "<input type='submit' name='like' value='Like'>";
-        } else {
-        echo "<input type='submit' name='unlike' value='Unlike'>";
-        }
-        echo "<span>".$post['likes']." likes</span>
-        </form>
-        <form action='index.php?postid=".$post['id']."' method='post'>
-        <textarea name='commentbody' rows='3' cols='50'></textarea>
-        <input type='submit' name='comment' value='Comment'>
-        </form>
-        ";
-        Comment::displayComments($post['id']);
-        echo "<hr /></br />";
-}
-
-?> -->
-
-
-<?php
-  if(Login::isLoggedIn()){
-   $userid = Login::isLoggedIn();
-   $username=DB::query('SELECT username FROM users WHERE id=:userid',array(":userid"=>$userid))[0]['username'];
-   $proflink;
-  }
-?>
-
-
-
-
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixter</title>
+    <title>Sambandh Matrimony</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/Footer-Dark.css">
@@ -89,7 +20,7 @@ $showTimeline = False;
 
         <div class="searchbox">
             <form>
-                <h1 class="text-left">Pixter</h1>
+                <h1 class="text-left">Sambandh Matrimony</h1>
                 <div class="searchbox"><i class="glyphicon glyphicon-search"></i>
                     <input class="form-control" type="text">
                 </div>
@@ -98,10 +29,10 @@ $showTimeline = False;
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                         <li role="presentation"><a href="#">My Profile</a></li>
                         <li class="divider" role="presentation"></li>
-                        <li role="presentation"><a href="#">Timeline </a></li>
-                        <li role="presentation"><a href="profile.php?username=<?php echo $username; ?>">Profile </a></li>
+                        <li role="presentation" class="active"><a href="#">Timeline </a></li>
+                        <li role="presentation"><a href="#">Profile </a></li>
                         <li role="presentation"><a href="#">My Account</a></li>
-                        <li role="presentation" ><a href="#" class="logout">Logout </a></li>
+                        <li role="presentation"><a href="#">Logout </a></li>
                     </ul>
                 </div>
             </form>
@@ -122,27 +53,27 @@ $showTimeline = False;
                     </form>
                     <ul class="nav navbar-nav hidden-md hidden-lg navbar-right">
                         <li role="presentation"><a href="#">My Timeline</a></li>
-                        <li class="dropdown open"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"><?php echo $username; ?> <span class="caret"></span></a>
+                        <li class="dropdown open"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#">User <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                <li role="presentation"><a href="profile.php?username=<?php echo $username; ?>">My Profile</a></li>
+                                <li role="presentation"><a href="#">My Profile</a></li>
                                 <li class="divider" role="presentation"></li>
                                 <li role="presentation"><a href="#">Timeline </a></li>
                                 <li role="presentation"><a href="#">My Account</a></li>
-                                <li role="presentation"><a href="#" class="logout">Logout </a></li>
+                                <li role="presentation"><a href="#">Logout </a></li>
                             </ul>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav hidden-xs hidden-sm navbar-right">
                         <li class="active" role="presentation"><a href="#">Timeline</a></li>
-                        <li role="presentation"><a href="profile.php?username=<?php echo $username; ?>">Profile</a></li>
-                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"><?php echo $username; ?> <span class="caret"></span></a>
+                        <li role="presentation"><a href="#">Profile</a></li>
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">User <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                <li role="presentation"><a href="profile.php?username=<?php echo $username; ?>">My Profile</a></li>
+                                <li role="presentation"><a href="#">My Profile</a></li>
                                 <li class="divider" role="presentation"></li>
                                 <li role="presentation"><a href="#">Timeline </a></li>
-                                <li role="presentation"><a href="<?php echo"profile.php?username=$username"; ?> ">Profile</a></li>
-                                <li role="presentation"><a href="login.html">My Account</a></li>
-                                <li role="presentation"><a href="#" class="logout">Logout </a></li>
+                                <li role="presentation"><a href="#">Profile</a></li>
+                                <li role="presentation"><a href="#">My Account</a></li>
+                                <li role="presentation" id="logout"><a href="#">Logout </a></li>
                             </ul>
                         </li>
                     </ul>
@@ -153,6 +84,7 @@ $showTimeline = False;
     <div class="container">
         <h1>Timeline </h1>
         <div class="timelineposts">
+
         </div>
     </div>
     <div class="modal fade" role="dialog" tabindex="-1" style="padding-top:100px;">
@@ -170,28 +102,10 @@ $showTimeline = False;
             </div>
         </div>
     </div>
-
-    <!-- logout-modal -->
-    <!-- <div class="modal fade" role="dialog" tabindex="-1" style="padding-top:100px;">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Logout</h4></div>
-                <div class="modal-body" style="max-height: 400px; overflow-y: auto">
-                    <p>The content of your modal.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    <div class="footer-dark" style="postion: relative">
+    <div class="footer-dark navbar-fixed-bottom">
         <footer>
             <div class="container">
-                <p class="copyright">Pixter© 2017</p>
+                <p class="copyright">Samband Matrimony© 2017</p>
             </div>
         </footer>
     </div>
@@ -213,21 +127,9 @@ $showTimeline = False;
                         success: function(r) {
                                 var posts = JSON.parse(r)
                                 $.each(posts, function(index) {
-                                  if(posts[index].PostImage == "") {
-
-                                  $('.timelineposts').html(
-                                          $('.timelineposts').html() +
-                                              '<li class="list-group-item"><blockquote><p>'+posts[index].PostBody+'</p><footer>Posted by '+posts[index].PostedBy+' on '+posts[index].PostDate+'<button class="btn btn-default" type="button" style="color:#eb3b60;background-image:url(&quot;none&quot;);background-color:transparent;" data-id=\"'+posts[index].PostId+'\"> <i class="glyphicon glyphicon-heart" data-aos="flip-right"></i><span> '+posts[index].Likes+' Likes</span></button><button class="btn btn-default comment" data-postid=\"'+posts[index].PostId+'\" type="button" style="color:#eb3b60;background-image:url(&quot;none&quot;);background-color:transparent;"><i class="glyphicon glyphicon-flash" style="color:#f9d616;"></i><span style="color:#f9d616;"> Comments</span></button></footer></blockquote></li>'
-                                  )
-                                }
-                                else {
-
-                                  $('.timelineposts').html(
-                                          $('.timelineposts').html() +
-                                              '<li class="list-group-item"><blockquote><p>'+posts[index].PostBody+'</p><img src="" data-imagesrc="'+posts[index].PostImage+'" class="postimg" id="img'+posts[index].PostId+'"><footer>Posted by '+posts[index].PostedBy+' on '+posts[index].PostDate+'<button class="btn btn-default" type="button" style="color:#eb3b60;background-image:url(&quot;none&quot;);background-color:transparent;" data-id=\"'+posts[index].PostId+'\"> <i class="glyphicon glyphicon-heart" data-aos="flip-right"></i><span> '+posts[index].Likes+' Likes</span></button><button class="btn btn-default comment" data-postid=\"'+posts[index].PostId+'\" type="button" style="color:#eb3b60;background-image:url(&quot;none&quot;);background-color:transparent;"><i class="glyphicon glyphicon-flash" style="color:#f9d616;"></i><span style="color:#f9d616;"> Comments</span></button></footer></blockquote></li>'
-                                            )
-                                }
-
+                                        $('.timelineposts').html(
+                                                $('.timelineposts').html() + '<blockquote><p>'+posts[index].PostBody+'</p><footer>Posted by '+posts[index].PostedBy+' on '+posts[index].PostDate+'<button class="btn btn-default" data-id="'+posts[index].PostId+'" type="button" style="color:#eb3b60;background-image:url(&quot;none&quot;);background-color:transparent;"> <i class="glyphicon glyphicon-heart" data-aos="flip-right"></i><span> '+posts[index].Likes+' Likes</span></button><button class="btn btn-default comment" type="button" data-postid="'+posts[index].PostId+'" style="color:#eb3b60;background-image:url(&quot;none&quot;);background-color:transparent;"><i class="glyphicon glyphicon-flash" style="color:#f9d616;"></i><span style="color:#f9d616;"> Comments</span></button></footer></blockquote>'
+                                        )
 
                                         $('[data-postid]').click(function() {
                                                 var buttonid = $(this).attr('data-postid');
@@ -270,13 +172,6 @@ $showTimeline = False;
                                                 });
                                         })
                                 })
-                                $('.postimg').each(function(){
-                                  this.src=$(this).attr('data-imagesrc')
-                                  this.onload = function() {
-                                    this.style.opacity = '1';
-                                  }
-                                })
-
 
                         },
                         error: function(r) {
@@ -288,41 +183,14 @@ $showTimeline = False;
         });
 
 
-
-        $('.logout').click(function(){
-          $('.modal').modal('show')
-          $('.modal-title').text(" " +'Logout')
-          var res = '<form action="index.php" method="post"><input type="checkbox" name="alldevices">Sign out of All Devices</br><button type="button" class="btn btn-primary" id="logout-btn">Logout</button></form>'
-          $('.modal-body').html(res)
-          var check = 0
-          $('#logout-btn').click(function(){
-            if($('input[name="alldevices"]').prop("checked")==true){
-              check = 1
-          }
-                $.ajax({
-
-                    type: "DELETE",
-                    url: "api/auth?check="+check,
-                    processData: false,
-                    contentType: "application/JSON",
-                    data: '',
-                    success: function(){
-                      window.location.href = "login.html"
-                    },
-                    error: function (resp){
-                      alert(resp)
-                    }
+        $('#logout').click(function(){
 
 
-                });
-
-          });
 
         });
 
         function showCommentsModal(res) {
                 $('.modal').modal('show')
-                $('.modal-title').text(" " +'Comments')
                 var output = "";
                 for (var i = 0; i < res.length; i++) {
                         output += res[i].Comment;
@@ -335,7 +203,6 @@ $showTimeline = False;
         }
 
     </script>
-
 </body>
 
 </html>

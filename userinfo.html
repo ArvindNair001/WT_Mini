@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sambandh</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div class="login-clean" style="height:800px;">
+        <form method="post">
+            <h2 class="sr-only">Login Form</h2>
+            <div class="illustration"></div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="fname" placeholder="First Name">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="lname" placeholder="Last Name">
+            </div>
+            <div class="form-group">
+                <div class="form-control">
+                    <input class="radio-control" type="radio" name="gender" value="Male"> Male 
+                      <input class="radio-control" type="radio" name="gender" value="Female"> Female
+                </div>   
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="Date" name="dob" multiple="" placeholder="DOB">
+            </div>
+            <div class="form-group">
+                <!-- <input class="form-control" type="email" name="religion" multiple="" placeholder="Religion"> -->
+                <select class="form-control" name="religion" id="">
+                    <option value="" selected hidden>Select Religion</option>
+                    <option value="Hindu">Hindu</option>
+                    <option value="Christian">Christian</option>
+                    <option value="Muslim">Muslim</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="qualific" placeholder="Qualification">
+            </div>
+            <div class="form-group">
+                   <select class="form-control" id="">
+                       <option value="" selected hidden>Get Married within</option>
+                       <option value="3">1-3 Months</option>
+                       <option value="6">6 Months</option>
+                       <option value="12">1 Year</option>
+                       <option value="24">2 Years</option>
+                       <option value="0">No Time limit</option>
+                   </select>
+                </div>
+            <button class="btn btn-primary btn-block" type="button">Submit </button>
+            <div class="form-group"></div>
+        </form>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+</body>
+
+</html>

@@ -14,6 +14,7 @@
         setcookie("MID",$token,time()+60*60*24*7*4,'/',NULL,NULL,TRUE); //primary token
         $temp_token= bin2hex(openssl_random_pseudo_bytes(32,$cstrong));
         setcookie("TMID",$temp_token,time()+60*60*24*7,'/',NULL,NULL,TRUE); //secondary token
+        echo "logging in...";
 
       }
       else {
